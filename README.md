@@ -1,2 +1,2 @@
 # Propuesta-IKW
-Apoyados con el equipo Biz-In
+Apoyados con el equipo de consultoría de Biz-In
