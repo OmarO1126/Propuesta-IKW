@@ -1,6 +1,3 @@
 [submodule "custom_addons/stock_no_negative"]
 	path = custom_addons/stock_no_negative
 	url = git@github.com:businessinsights-mx/stock_no_negative.git
-[submodule "custom_addons/sales-order-button-pickings-IKW"]
-	path = custom_addons/sales-order-button-pickings-IKW
-	url = git@github.com:businessinsights-mx/sales-order-button-pickings-IKW.git
