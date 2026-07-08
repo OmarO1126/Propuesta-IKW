@@ -10,3 +10,6 @@
 [submodule "custom_addons/ikw_picking_report"]
 	path = custom_addons/ikw_picking_report
 	url = git@github.com:businessinsights-mx/ikw_picking_report.git
+[submodule "custom_addons/load_xml_orders_sales"]
+	path = custom_addons/load_xml_orders_sales
+	url = git@github.com:businessinsights-mx/load_xml_orders_sales.git
