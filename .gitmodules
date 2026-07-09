@@ -1,0 +1,15 @@
+[submodule "custom_addons/stock_no_negative"]
+	path = custom_addons/stock_no_negative
+	url = git@github.com:businessinsights-mx/stock_no_negative.git
+[submodule "custom_addons/sales_order_button_pickings_ikw"]
+	path = custom_addons/sales_order_button_pickings_ikw
+	url = git@github.com:businessinsights-mx/sales_order_button_pickings_ikw.git
+[submodule "custom_addons/stock_picking_surtido_responsible"]
+	path = custom_addons/stock_picking_surtido_responsible
+	url = git@github.com:businessinsights-mx/stock_picking_surtido_responsible.git
+[submodule "custom_addons/ikw_picking_report"]
+	path = custom_addons/ikw_picking_report
+	url = git@github.com:businessinsights-mx/ikw_picking_report.git
+[submodule "custom_addons/load_xml_orders_sales"]
+	path = custom_addons/load_xml_orders_sales
+	url = git@github.com:businessinsights-mx/load_xml_orders_sales.git
