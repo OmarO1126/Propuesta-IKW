@@ -13,3 +13,6 @@
 [submodule "custom_addons/load_xml_orders_sales"]
 	path = custom_addons/load_xml_orders_sales
 	url = git@github.com:businessinsights-mx/load_xml_orders_sales.git
+[submodule "custom_addons/credit_note"]
+	path = custom_addons/credit_note
+	url = git@github.com:businessinsights-mx/credit_note.git
