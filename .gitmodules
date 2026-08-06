@@ -16,3 +16,6 @@
 [submodule "custom_addons/credit_note"]
 	path = custom_addons/credit_note
 	url = git@github.com:businessinsights-mx/credit_note.git
+[submodule "custom_addons/account_custom_reports"]
+	path = custom_addons/account_custom_reports
+	url = git@github.com:businessinsights-mx/account_custom_reports.git
