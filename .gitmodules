@@ -22,3 +22,6 @@
 [submodule "custom_addons/pricelist_cascade"]
 	path = custom_addons/pricelist_cascade
 	url = git@github.com:businessinsights-mx/pricelist_cascade.git
+[submodule "custom_addons/status_backorder"]
+	path = custom_addons/status_backorder
+	url = git@github.com:businessinsights-mx/status_backorder.git
