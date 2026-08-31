@@ -25,3 +25,6 @@
 [submodule "custom_addons/status_backorder"]
 	path = custom_addons/status_backorder
 	url = git@github.com:businessinsights-mx/status_backorder.git
+[submodule "custom_addons/advances_on_multiple_invoices"]
+	path = custom_addons/advances_on_multiple_invoices
+	url = git@github.com:businessinsights-mx/advances_on_multiple_invoices.git
