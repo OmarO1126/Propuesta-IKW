@@ -31,3 +31,7 @@
 [submodule "custom_addons/priority_dispatch"]
 	path = custom_addons/priority_dispatch
 	url = git@github.com:businessinsights-mx/priority_dispatch.git
+[submodule "custom_addons/account_advance_l10n_mx"]
+	path = custom_addons/account_advance_l10n_mx
+	url = git@github.com:businessinsights-mx/account_advance_l10n_mx.git
+
