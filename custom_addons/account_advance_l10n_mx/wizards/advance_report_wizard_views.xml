@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_advance_report_wizard_form" model="ir.ui.view">
+        <field name="name">advance.report.wizard.form</field>
+        <field name="model">advance.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reporte de Anticipos">
+                <group>
+                    <group>
+                        <field name="partner_id" options="{'no_create': True}"/>
+                        <field name="vendedor_id" options="{'no_create': True}"/>
+                    </group>
+                    <group>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="report_type" widget="radio"/>
+                    </group>
+                </group>
+
+                <group invisible="not show_preview">
+                    <field name="show_preview" invisible="1"/>
+                    <field name="report_name" invisible="1"/>
+                    <field name="report_pdf" filename="report_name" widget="pdf_viewer" colspan="4" nolabel="1"/>
+                </group>
+
+                <footer>
+                    <button name="action_preview" type="object" string="Vista Previa" class="btn-secondary"/>
+                    <button name="action_generate_report" type="object" string="Imprimir PDF" class="btn-primary"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción para abrir el wizard -->
+    <record id="action_advance_report_wizard" model="ir.actions.act_window">
+        <field name="name">Reporte de Anticipos</field>
+        <field name="res_model">advance.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- ENLACE AL MENÚ (Esto es lo que faltaba para que sea visible) -->
+    <menuitem id="menu_action_advance_report_wizard"
+              name="Reporte de Anticipos"
+              parent="account.account_reports_management_menu"
+              action="action_advance_report_wizard"
+              sequence="100"/>
+</odoo>

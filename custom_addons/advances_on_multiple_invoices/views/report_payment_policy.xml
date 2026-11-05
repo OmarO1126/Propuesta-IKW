@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_payment_policy_document">
+        <t t-set="o" t-value="payment.distributed_payment_primary_id or payment"/>
+        <t t-set="components"
+           t-value="o._get_distributed_payment_components() if o.multiple_invoice_distribution else o"/>
+        <t t-set="total"
+           t-value="o.distributed_group_total_amount if o.multiple_invoice_distribution else o.amount"/>
+        <t t-set="is_remission"
+           t-value="o.multiple_invoice_distribution and o.distributed_document_kind == 'remission'"/>
+        <t t-set="remission_issuer"
+           t-value="o.distributed_group_distribution_ids.invoice_id.remission_issuer_partner_id[:1].sudo() if is_remission else False"/>
+        <t t-call="advances_on_multiple_invoices.payment_policy_name_only_layout">
+            <div class="page">
+                <div class="text-center mb-3">
+                    <h2 style="margin-bottom: 3px;">Póliza: <span t-out="o.policy_number or 'Sin asignar'"/></h2>
+                    <h3 style="margin-top: 0;">Impresión de depósito</h3>
+                </div>
+                <table class="table table-sm table-borderless" style="width: 100%; margin-bottom: 16px;">
+                    <tbody>
+                        <tr>
+                            <th style="width: 22%;">
+                                <span t-if="is_remission">Emisor de remisión</span>
+                                <span t-else="">Empresa / sucursal</span>
+                            </th>
+                            <td>
+                                <t t-if="is_remission">
+                                    <span t-if="remission_issuer" t-field="remission_issuer.name"/>
+                                    <span t-else="">No registrado en la remisión.</span>
+                                </t>
+                                <t t-else="">
+                                    <span t-field="o.company_id.partner_id.name"/>
+                                </t>
+                            </td>
+                        </tr>
+                        <tr><th>Cliente</th><td><span t-field="o.partner_id"/></td></tr>
+                        <tr><th>Póliza</th><td t-out="o.policy_number or 'Sin asignar'"/></tr>
+                        <tr><th>Fecha del pago</th><td><span t-field="o.date"/></td></tr>
+                        <tr><th>Observación</th><td t-out="o.policy_observation or '-'"/></tr>
+                        <tr><th>Usuario</th><td t-out="o.create_uid.name"/></tr>
+                    </tbody>
+                </table>
+                <h4 style="border-bottom: 2px solid #714B67; padding-bottom: 5px;">
+                    Aplicación por forma de pago
+                </h4>
+                <table class="table table-sm table-bordered" style="width: 100%; font-size: 0.82rem;">
+                    <thead style="display: table-header-group; background-color: #f3eef2;">
+                        <tr>
+                            <th>Método</th>
+                            <th>Cliente</th>
+                            <th>Documento</th>
+                            <th>Núm. de operación</th>
+                            <th>Diario</th>
+                            <th class="text-end">Importe</th>
+                            <th>Moneda</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="components" t-as="component">
+                            <t t-if="component.invoice_distribution_ids">
+                                <tr t-foreach="component.invoice_distribution_ids.sorted(lambda line: (line.sequence, line.id))"
+                                    t-as="distribution">
+                                    <td t-out="component.distributed_payment_component_sequence if o.multiple_invoice_distribution else 1"/>
+                                    <td t-out="component.partner_id.ref or component.partner_id.display_name"/>
+                                    <td><span t-field="distribution.invoice_id.name"/></td>
+                                    <td t-out="component.memo or '-'"/>
+                                    <td><span t-field="component.journal_id"/></td>
+                                    <td class="text-end">
+                                        <span t-field="distribution.amount"
+                                              t-options="{'widget': 'monetary', 'display_currency': distribution.currency_id}"/>
+                                    </td>
+                                    <td><span t-field="distribution.currency_id.name"/></td>
+                                </tr>
+                            </t>
+                            <tr t-else="">
+                                <td t-out="component.distributed_payment_component_sequence if o.multiple_invoice_distribution else 1"/>
+                                <td t-out="component.partner_id.ref or component.partner_id.display_name"/>
+                                <td t-out="component.name"/>
+                                <td t-out="component.memo or '-'"/>
+                                <td><span t-field="component.journal_id"/></td>
+                                <td class="text-end">
+                                    <span t-field="component.amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': component.currency_id}"/>
+                                </td>
+                                <td><span t-field="component.currency_id.name"/></td>
+                            </tr>
+                            <tr t-if="component.invoice_distribution_ids and component.distributed_excess_amount"
+                                style="font-style: italic;">
+                                <td/>
+                                <td/>
+                                <td>Importe no aplicado</td>
+                                <td t-out="component.memo or '-'"/>
+                                <td><span t-field="component.journal_id"/></td>
+                                <td class="text-end">
+                                    <span t-field="component.distributed_excess_amount"
+                                          t-options="{'widget': 'monetary', 'display_currency': component.currency_id}"/>
+                                </td>
+                                <td><span t-field="component.currency_id.name"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th colspan="5" class="text-end">Total del cobro</th>
+                            <th class="text-end">
+                                <span t-out="total"
+                                      t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                            </th>
+                            <th><span t-field="o.currency_id.name"/></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="text-muted" style="margin-top: 14px; font-size: 0.75rem;">
+                    <span t-if="is_remission">Póliza interna de remisión; no genera CFDI.</span>
+                    <span t-else="">Póliza interna de depósito. El folio de póliza es distinto del folio fiscal del CFDI.</span>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="payment_policy_name_only_layout">
+        <t t-set="policy_logo"
+           t-value="remission_issuer.image_128 if is_remission and remission_issuer else o.company_id.logo"/>
+        <div class="header" style="border-bottom: 1px solid #d8dadd; padding-bottom: 8px;">
+            <table style="width: 100%; border: 0; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 145px; border: 0; vertical-align: middle; padding: 0;">
+                        <img t-if="policy_logo" t-att-src="image_data_uri(policy_logo)"
+                             alt="Logo" style="max-width: 135px; max-height: 55px; width: auto; height: auto;"/>
+                    </td>
+                    <td style="border: 0; vertical-align: middle; padding: 0 0 0 10px;">
+                        <strong t-if="is_remission and remission_issuer"
+                                t-field="remission_issuer.name"/>
+                        <strong t-elif="is_remission">Emisor de remisión no registrado</strong>
+                        <strong t-else="" t-field="o.company_id.partner_id.name"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="article o_report_layout_standard"
+             t-att-data-oe-model="o._name"
+             t-att-data-oe-id="o.id"
+             t-att-data-oe-lang="o.env.context.get('lang')">
+            <t t-out="0"/>
+        </div>
+        <div class="footer text-muted" style="border-top: 1px solid #d8dadd; padding-top: 4px; font-size: 9px;">
+            <span t-if="is_remission">Póliza interna de remisión</span>
+            <span t-else="">Póliza interna de depósito</span>
+            <span class="float-end">Página <span class="page"/> / <span class="topage"/></span>
+        </div>
+    </template>
+
+    <template id="report_payment_policy">
+        <t t-set="data_report_margin_top" t-value="35"/>
+        <t t-set="data_report_header_spacing" t-value="35"/>
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="payment">
+                <t t-call="advances_on_multiple_invoices.report_payment_policy_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_payment_policy" model="ir.actions.report">
+        <field name="name">Póliza de depósito</field>
+        <field name="model">account.payment</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">advances_on_multiple_invoices.report_payment_policy</field>
+        <field name="report_file">advances_on_multiple_invoices.report_payment_policy</field>
+        <field name="binding_model_id" ref="account.model_account_payment"/>
+        <field name="binding_type">report</field>
+        <field name="print_report_name">'Póliza %s' % (object.policy_number or object.name)</field>
+    </record>
+</odoo>

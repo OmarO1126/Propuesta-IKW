@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_advance_template">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <!-- Espaciador físico para obligar a wkhtmltopdf a dejar espacio debajo del membrete -->
+                    <div style="height: 50px; width: 100%;"></div>
+
+                    <h2 class="mb-3" style="color: #343a40 !important; font-size: 24px;">Reporte de Anticipos y Saldos</h2>
+                    
+                    <p>
+                        <strong>Filtros aplicados:</strong><br/>
+                        Tipo: 
+                        <span t-if="data.get('report_type') == 'general'">General (Desglose por Anticipo)</span>
+                        <span t-if="data.get('report_type') == 'detailed'">Detallado (Desglose de Aplicación a Facturas)</span>
+                        <br/>
+                        Cliente: <span t-esc="data.get('partner_name') or 'Todos los clientes'"/><br/>
+                        Agente: <span t-esc="data.get('agent_name') or 'Todos los agentes'"/><br/>
+                        Desde: <span t-esc="data.get('date_from') or 'Inicio'"/> | Hasta: <span t-esc="data.get('date_to') or 'Hoy'"/>
+                    </p>
+
+                    <t t-if="not grouped_advances">
+                        <div class="alert alert-info mt-4">
+                            No se encontraron facturas de anticipo con los filtros seleccionados.
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <t t-foreach="grouped_advances.keys()" t-as="partner">
+                            <h4 class="mt-4 mb-2 text-primary">
+                                <span t-field="partner.name"/>
+                            </h4>
+                            
+                            <table class="table table-sm">
+                                <thead style="border-bottom: 2px solid #dee2e6; font-size: 0.9rem;">
+                                    <tr>
+                                        <th>Factura / Aplicación</th>
+                                        <th>Fecha</th>
+                                        <th class="text-right">Monto Total</th>
+                                        <th class="text-right">Monto Aplicado</th>
+                                        <th class="text-right">Total c/Impuesto</th>
+                                        <th class="text-right">Saldo Restante</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-set="total_partner_amount" t-value="0"/>
+                                    <t t-set="total_partner_applied" t-value="0"/>
+                                    <t t-set="total_partner_residual" t-value="0"/>
+                                    
+                                    <t t-foreach="grouped_advances[partner]" t-as="adv_dict">
+                                        <t t-set="adv" t-value="adv_dict['move']"/>
+                                        
+                                        <!-- Usamos los valores calculados de forma segura desde Python -->
+                                        <t t-set="amount_total" t-value="adv_dict['amount_total']"/>
+                                        <t t-set="total_applied" t-value="adv_dict['total_applied']"/>
+                                        <t t-set="balance_left" t-value="adv_dict['balance_left']"/>
+                                        
+                                        <!-- Acumuladores para el total del cliente -->
+                                        <t t-set="total_partner_amount" t-value="total_partner_amount + amount_total"/>
+                                        <t t-set="total_partner_applied" t-value="total_partner_applied + total_applied"/>
+                                        <t t-set="total_partner_residual" t-value="total_partner_residual + balance_left"/>
+                                        
+                                        <!-- Fila principal: Anticipo -->
+                                        <tr style="background-color: #f8f9fa;">
+                                            <td class="font-weight-bold"><span t-field="adv.name"/></td>
+                                            <td><span t-field="adv.invoice_date"/></td>
+                                            <td class="text-right">
+                                                <span t-esc="amount_total" t-options="{'widget': 'monetary', 'display_currency': adv.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-esc="total_applied" t-options="{'widget': 'monetary', 'display_currency': adv.currency_id}"/>
+                                            </td>
+                                            <td class="text-right">-</td>
+                                            <td class="text-right font-weight-bold">
+                                                <span t-esc="balance_left" t-options="{'widget': 'monetary', 'display_currency': adv.currency_id}"/>
+                                            </td>
+                                        </tr>
+                                        
+                                        <!-- Filas de Detalle: Integradas -->
+                                        <t t-if="data.get('report_type') == 'detailed' and adv_dict['applied_invoices']">
+                                            <t t-foreach="adv_dict['applied_invoices']" t-as="app_inv">
+                                                <tr style="font-size: 0.9em; color: #6c757d;">
+                                                    <td style="padding-left: 2.5rem; border-top: none;">
+                                                        &#8627; <span t-esc="app_inv['name']"/>
+                                                    </td>
+                                                    <td style="border-top: none;">
+                                                        <span t-esc="app_inv['date']"/>
+                                                    </td>
+                                                    <td style="border-top: none;"></td>
+                                                    <td class="text-right" style="border-top: none;">
+                                                        <span t-esc="app_inv['amount']" t-options="{'widget': 'monetary', 'display_currency': adv.currency_id}"/>
+                                                    </td>
+                                                    <td class="text-right" style="border-top: none;">
+                                                        <span t-esc="app_inv['total_with_tax']" t-options="{'widget': 'monetary', 'display_currency': adv.currency_id}"/>
+                                                    </td>
+                                                    <td style="border-top: none;"></td>
+                                                </tr>
+                                            </t>
+                                        </t>
+                                    </t>
+                                    
+                                    <!-- Fila final: Totales del Cliente -->
+                                    <tr class="font-weight-bold bg-light" style="border-top: 2px solid #343a40;">
+                                        <td colspan="2" class="text-right">Total <span t-field="partner.name"/>:</td>
+                                        <td class="text-right">
+                                            <span t-esc="total_partner_amount" t-options="{'widget': 'monetary', 'display_currency': partner.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-esc="total_partner_applied" t-options="{'widget': 'monetary', 'display_currency': partner.currency_id}"/>
+                                        </td>
+                                        <td class="text-right">-</td>
+                                        <td class="text-right text-primary">
+                                            <span t-esc="total_partner_residual" t-options="{'widget': 'monetary', 'display_currency': partner.currency_id}"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                    </t>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_advance_summary" model="ir.actions.report">
+        <field name="name">Reporte de Anticipos</field>
+        <field name="model">advance.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">account_advance_l10n_mx.report_advance_template</field>
+        <field name="report_file">account_advance_l10n_mx.report_advance_template</field>
+        <field name="binding_model_id" ref="model_advance_report_wizard"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>

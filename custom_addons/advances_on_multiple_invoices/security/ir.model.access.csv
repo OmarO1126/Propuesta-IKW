@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_multiple_invoice_payment_wizard,multiple.invoice.payment.wizard,model_multiple_invoice_payment_wizard,account.group_account_invoice,1,1,1,1
+access_multiple_invoice_payment_wizard_line,multiple.invoice.payment.wizard.line,model_multiple_invoice_payment_wizard_line,account.group_account_invoice,1,1,1,1
+access_account_payment_invoice_distribution,account.payment.invoice.distribution,model_account_payment_invoice_distribution,account.group_account_invoice,1,0,1,0

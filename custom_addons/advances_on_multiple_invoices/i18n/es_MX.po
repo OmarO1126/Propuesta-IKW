@@ -1,0 +1,1135 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* advances_on_multiple_invoices
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Language: es_MX\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Every Mexican invoice must use payment policy PUE or PPD. Invalid "
+"documents: %(documents)s"
+msgstr "Cada factura mexicana debe usar la política de pago PUE o PPD. Documentos no válidos: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__account_id
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Account"
+msgstr "Cuenta contable"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_payer_id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payer_id
+msgid "Payer"
+msgstr "Pagador"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_payer_bank_id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payer_bank_id
+msgid "Payer bank account"
+msgstr "Cuenta bancaria ordenante"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payer_id
+msgid "Third party that provides the funds. The selected customer remains the accounting debtor and CFDI receiver."
+msgstr "Tercero que proporciona los fondos. El cliente seleccionado continúa siendo el deudor contable y el receptor del CFDI."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_account_payment__distributed_payer_id
+msgid "Third party that provided the funds. The customer remains the accounting debtor and CFDI receiver."
+msgstr "Tercero que proporcionó los fondos. El cliente continúa siendo el deudor contable y el receptor del CFDI."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payer_bank_id
+msgid "Optional ordering account to include in the payment receipt and, when applicable, the REP."
+msgstr "Cuenta ordenante opcional que se incluirá en el recibo de pago y, cuando corresponda, en el REP."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_account_payment__distributed_payer_bank_id
+msgid "Explicit ordering account used for the payment receipt and, when applicable, the REP."
+msgstr "Cuenta ordenante seleccionada expresamente para el recibo de pago y, cuando corresponda, para el REP."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select the person or company that provided the funds."
+msgstr "Selecciona la persona o empresa que proporcionó los fondos."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/account_payment.py:0
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The ordering bank account must belong to the selected payer."
+msgstr "La cuenta bancaria ordenante debe pertenecer al pagador seleccionado."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/account_payment.py:0
+msgid "The ordering bank account must be available to the payment company."
+msgstr "La cuenta bancaria ordenante debe estar disponible para la empresa del pago."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The ordering bank account must be available to the selected company."
+msgstr "La cuenta bancaria ordenante debe estar disponible para la empresa seleccionada."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "All invoices must belong to the same commercial customer."
+msgstr "Todas las facturas deben pertenecer al mismo cliente comercial."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "All invoices must belong to the same company."
+msgstr "Todas las facturas deben pertenecer a la misma empresa."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"All PPD invoices must have the same customer RFC for the payment "
+"complement."
+msgstr "Todas las facturas PPD deben tener el mismo RFC receptor para el complemento de pago."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"PUE invoices must be settled in full by this payment. Documents with a "
+"remaining balance: %(documents)s"
+msgstr "Las facturas PUE deben liquidarse totalmente con este pago. Documentos que conservarían saldo: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"PUE invoices can only be paid no later than the last day of their invoice "
+"month. Reissue them as PPD before registering this payment: %(documents)s"
+msgstr "Las facturas PUE sólo pueden pagarse a más tardar el último día del mes de la factura. Reexpídelas como PPD antes de registrar este pago: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"The SAT payment way must match the payment way stamped on every PUE "
+"invoice. Documents with a different way: %(documents)s"
+msgstr "La forma de pago SAT debe coincidir con la timbrada en cada factura PUE. Documentos con una forma distinta: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid ""
+"PUE invoices must be settled in full and are excluded from the payment "
+"complement.\n"
+"                    PPD invoices may receive full or partial amounts and are "
+"included in the complement."
+msgstr "Las facturas PUE deben liquidarse totalmente y se excluyen del complemento de pago. Las facturas PPD pueden recibir importes totales o parciales y se incluyen en el complemento."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "All invoices must use the same currency."
+msgstr "Todas las facturas deben usar la misma moneda."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "All invoices must use the same receivable account."
+msgstr "Todas las facturas deben usar la misma cuenta por cobrar."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "All selected invoices must use the same receivable account."
+msgstr "Todas las facturas seleccionadas deben usar la misma cuenta por cobrar."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__allocated_amount
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Allocated"
+msgstr "Distribuido"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__allocation_complete
+msgid "Allocation Complete"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Applied"
+msgstr "Aplicado"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__amount
+msgid "Applied amount"
+msgstr "Importe aplicado"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Applied amounts cannot be negative."
+msgstr "Los importes aplicados no pueden ser negativos."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__allocation_amount
+msgid "Apply"
+msgstr "Aplicar"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Apply the payment to at least one invoice."
+msgstr "Aplica el pago al menos a una factura."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__available_journal_ids
+msgid "Available Journal"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__available_payment_method_line_ids
+msgid "Available Payment Method Line"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__cfdi_uuid
+msgid "CFDI UUID"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__l10n_mx_edi_cfdi_origin
+msgid "CFDI origin"
+msgstr "Origen CFDI"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Cancel"
+msgstr "Cancelar"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Clear"
+msgstr "Limpiar"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__company_id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__company_id
+msgid "Company"
+msgstr "Empresa"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__country_code
+msgid "Country Code"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Create distributed payment"
+msgstr "Crear pago distribuido"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid ""
+"Create one customer payment and decide the exact amount applied to every invoice.\n"
+"                    If the payment is greater than the loaded balance, choose where its excess will be posted."
+msgstr "Crea un solo pago de cliente y decide el importe exacto aplicado a cada factura.\n                    Si el pago es mayor que el saldo cargado, elige dónde se registrará el excedente."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__create_uid
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__create_uid
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__create_date
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__create_date
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__currency_id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__current_residual
+msgid "Current outstanding"
+msgstr "Saldo actual"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__partner_id
+msgid "Customer"
+msgstr "Cliente"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__partner_id
+msgid "Customer/Vendor"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__display_name
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__display_name
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__display_name
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.ui.menu,name:advances_on_multiple_invoices.menu_multiple_invoice_payment_wizard
+msgid "Distribute customer payment"
+msgstr "Distribuir pago de cliente"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_out_invoice_tree_distributed_payment
+msgid "Distribute payment"
+msgstr "Distribuir pago"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Distributed customer payment"
+msgstr "Pago de cliente distribuido"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__multiple_invoice_distribution
+msgid "Distributed over multiple invoices"
+msgstr "Distribuido entre varias facturas"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__invoice_date_due
+msgid "Due date"
+msgstr "Fecha de vencimiento"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Every Mexican invoice must have a valid stamped CFDI before receiving this "
+"payment. Pending documents: %(documents)s"
+msgstr "Cada factura mexicana debe tener un CFDI timbrado válido antes de recibir este pago. Documentos pendientes: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__cfdi_uuid
+msgid "Folio in electronic invoice, is returned by SAT when send to stamp."
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__id
+msgid "ID"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__initial_residual
+msgid "Initial outstanding"
+msgstr "Saldo inicial"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__invoice_id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__invoice_id
+msgid "Invoice"
+msgstr "Factura"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Invoice number or reference..."
+msgstr "Número o referencia de factura..."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Invoice search"
+msgstr "Búsqueda de facturas"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Invoice %(invoice)s has no open receivable line."
+msgstr "La factura %(invoice)s no tiene una línea por cobrar abierta."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Invoice %(invoice)s no longer has one open receivable account. Reload the "
+"wizard."
+msgstr "La factura %(invoice)s ya no tiene una sola cuenta por cobrar abierta. Vuelve a cargar el asistente."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Invoice %(invoice)s now has only %(residual)s outstanding. Reload the wizard"
+" and redistribute the payment."
+msgstr "La factura %(invoice)s ahora sólo tiene %(residual)s pendiente. Vuelve a cargar el asistente y redistribuye el pago."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model,name:advances_on_multiple_invoices.model_multiple_invoice_payment_wizard_line
+msgid "Invoice allocation line"
+msgstr "Línea de distribución de factura"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__invoice_date
+msgid "Invoice date"
+msgstr "Fecha de factura"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__invoice_distribution_ids
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Invoice distribution"
+msgstr "Distribución por factura"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__line_ids
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__filtered_line_ids
+msgid "Filtered invoices"
+msgstr "Facturas filtradas"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__invoice_filter_ids
+msgid "Selecciona varias facturas por número o referencia para verlas y distribuirlas juntas sin perder las aplicaciones de las demás."
+msgstr "Selecciona varias facturas por número o referencia para verlas y distribuirlas juntas sin perder las aplicaciones de las demás."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__journal_id
+msgid "Journal"
+msgstr "Diario"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__write_uid
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__write_uid
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__write_date
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__write_date
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__memo
+msgid "Memo"
+msgstr "Referencia"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Operation No."
+msgstr "No. de operación"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Remission documents cannot be included in a distributed payment: %(documents)s"
+msgstr "Las remisiones no pueden incluirse en un pago distribuido: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The selected documents are marked as remissions and cannot be included in a distributed payment."
+msgstr "Los documentos seleccionados están marcados como remisiones y no pueden incluirse en un pago distribuido."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Newest first"
+msgstr "Más recientes primero"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Odoo did not generate the expected payment entry; the distribution was "
+"cancelled."
+msgstr "Odoo no generó el asiento de pago esperado; se canceló la distribución."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Oldest first"
+msgstr "Más antiguas primero"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Only posted customer invoices with an outstanding balance can be "
+"distributed. Invalid documents: %(documents)s"
+msgstr "Sólo pueden distribuirse facturas de cliente publicadas con saldo pendiente. Documentos no válidos: %(documents)s"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__l10n_mx_edi_cfdi_origin
+msgid "Optional replacement relationship, for example 04|UUID."
+msgstr "Relación de sustitución opcional, por ejemplo 04|UUID."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Outstanding"
+msgstr "Pendiente"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__partial_reconcile_ids
+msgid "Partial reconciliations"
+msgstr "Conciliaciones parciales"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__payment_id
+msgid "Payment"
+msgstr "Pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__amount
+msgid "Payment amount"
+msgstr "Importe del pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__currency_id
+msgid "Payment currency"
+msgstr "Moneda del pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payment_date
+msgid "Payment date"
+msgstr "Fecha de pago"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Payment distributed from the multiple-invoice wizard."
+msgstr "Pago distribuido desde el asistente de múltiples facturas."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model,name:advances_on_multiple_invoices.model_account_payment_invoice_distribution
+msgid "Payment distribution over an invoice"
+msgstr "Distribución del pago sobre una factura"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payment_method_line_id
+msgid "Payment method"
+msgstr "Método de pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model,name:advances_on_multiple_invoices.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__payment_policy
+msgid "Policy"
+msgstr "Política"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__previous_residual
+msgid "Previous balance"
+msgstr "Saldo anterior"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Proportional"
+msgstr "Proporcional"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Automatic distribution"
+msgstr "Distribución automática"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Apply oldest first"
+msgstr "Aplicar a más antiguas"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Apply newest first"
+msgstr "Aplicar a más recientes"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Distribute proportionally"
+msgstr "Distribuir proporcionalmente"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Clear amounts"
+msgstr "Limpiar importes"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__reconciliation_active
+msgid "Reconciliation active"
+msgstr "Conciliación activa"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model,name:advances_on_multiple_invoices.model_multiple_invoice_payment_wizard
+msgid "Register and distribute a payment over multiple invoices"
+msgstr "Registrar y distribuir un pago entre varias facturas"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+#: model:ir.actions.act_window,name:advances_on_multiple_invoices.action_multiple_invoice_payment_wizard
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Register and distribute payment"
+msgstr "Registrar y distribuir pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__remaining_residual
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Remaining"
+msgstr "Restante"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__remaining_residual
+msgid "Remaining balance"
+msgstr "Saldo restante"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__l10n_mx_edi_payment_method_id
+msgid "SAT payment way"
+msgstr "Forma de pago SAT"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__invoice_filter_ids
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Documentos a mostrar"
+msgstr "Documentos a mostrar"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Filter"
+msgstr "Filtrar"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select an invoice to filter."
+msgstr "Selecciona una factura para filtrar."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The selected invoice is no longer available in this wizard."
+msgstr "La factura seleccionada ya no está disponible en este asistente."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select a payment journal for the same company."
+msgstr "Selecciona un diario de pago de la misma empresa."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select a valid SAT payment way other than 99 - To define."
+msgstr "Selecciona una forma de pago SAT válida distinta de 99 - Por definir."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select an inbound payment method from the selected journal."
+msgstr "Selecciona un método de pago entrante del diario elegido."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select at least one customer invoice."
+msgstr "Selecciona al menos una factura de cliente."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment_invoice_distribution__sequence
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__amount_to_allocate
+msgid "Still to allocate"
+msgstr "Pendiente por distribuir"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__total_outstanding_amount
+msgid "Total invoice outstanding"
+msgstr "Saldo total de facturas"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "The payment exceeds the total outstanding balance of the loaded invoices."
+msgstr "El pago supera el saldo pendiente total de las facturas cargadas."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Automatic distribution can allocate at most"
+msgstr "La distribución automática puede aplicar como máximo"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Showing only the selected invoice. Its applied amount remains part of the full distribution."
+msgstr "Se muestra únicamente la factura seleccionada. Su importe aplicado sigue formando parte de la distribución completa."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Show all"
+msgstr "Mostrar todas"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__country_code
+msgid ""
+"The ISO country code in two chars. \n"
+"You can use this field for quick search."
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"The complete payment must be allocated before it is posted. Payment: "
+"%(payment)s; allocated: %(allocated)s."
+msgstr "El pago completo debe distribuirse antes de publicarlo. Pago: %(payment)s; distribuido: %(allocated)s."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The payment amount must be greater than zero."
+msgstr "El importe del pago debe ser mayor que cero."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The payment and every selected invoice must use the same currency."
+msgstr "El pago y todas las facturas seleccionadas deben usar la misma moneda."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The payment entry could not be split into the requested allocations."
+msgstr "El asiento del pago no pudo dividirse según la distribución solicitada."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"The payment method must have an outstanding receipts account. Configure it "
+"on journal %(journal)s before using this wizard."
+msgstr "El método de pago debe tener una cuenta de cobros pendientes. Configúrala en el diario %(journal)s antes de usar este asistente."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__l10n_mx_edi_payment_method_id
+msgid "The payment way reported in the CFDI payment complement."
+msgstr "La forma de pago informada en el complemento de pago CFDI."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The selected invoices no longer belong to the selected customer."
+msgstr "Las facturas seleccionadas ya no pertenecen al cliente elegido."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "There are no invoices available to distribute the payment."
+msgstr "No hay facturas disponibles para distribuir el pago."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid ""
+"There is still an amount to allocate. Use an automatic distribution button or edit the\n"
+"                    <strong>Apply</strong> column manually."
+msgstr "Todavía hay un importe por distribuir. Usa un botón de distribución automática o edita manualmente la columna\n                    <strong>Aplicar</strong>."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payment_difference
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Payment difference"
+msgstr "Diferencia de pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__payment_difference_handling
+msgid "Payment difference handling"
+msgstr "Tratamiento de la diferencia de pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__multiple_invoice_payment_wizard__payment_difference_handling__open
+msgid "Keep as customer credit"
+msgstr "Mantener como saldo a favor del cliente"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__multiple_invoice_payment_wizard__payment_difference_handling__reconcile
+msgid "Post the excess to an account"
+msgstr "Registrar el excedente en una cuenta"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_writeoff_account_id
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__writeoff_account_id
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__account_payment__distributed_difference_handling__reconcile
+msgid "Difference account"
+msgstr "Cuenta de diferencia"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__writeoff_label
+msgid "Journal item label"
+msgstr "Etiqueta del apunte contable"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_excess_amount
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Payment excess"
+msgstr "Excedente del pago"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__excess_amount
+msgid "Excess amount"
+msgstr "Importe excedente"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__writeoff_label
+msgid "Label used on the journal item that receives the payment excess."
+msgstr "Etiqueta usada en el apunte contable que recibe el excedente del pago."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Customer credit - unapplied payment excess"
+msgstr "Saldo a favor del cliente - excedente no aplicado"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__account_payment__distributed_difference_handling__open
+msgid "Customer credit"
+msgstr "Saldo a favor del cliente"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_difference_handling
+msgid "Excess destination"
+msgstr "Destino del excedente"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_writeoff_label
+msgid "Difference label"
+msgstr "Etiqueta de diferencia"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<strong>Operation number:</strong>"
+msgstr "<strong>Num de operación:</strong>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<strong>Emitter</strong>"
+msgstr "<strong>Emisor</strong>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<strong>Payer</strong>"
+msgstr "<strong>Pagador</strong>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<strong>Receiver</strong>"
+msgstr "<strong>Receptor</strong>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<span>RFC:</span>"
+msgstr "<span>RFC:</span>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "RFC not registered"
+msgstr "RFC no registrado"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<span>Bank account:</span>"
+msgstr "<span>Cuenta bancaria:</span>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<span>Bank:</span>"
+msgstr "<span>Banco:</span>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "Not registered"
+msgstr "No registrada"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid ""
+"<span>The payment exceeds the total outstanding balance of the loaded invoices.</span>\n"
+"                    <span>Automatic distribution can allocate at most</span>"
+msgstr ""
+"<span>El pago supera el saldo pendiente total de las facturas cargadas.</span>\n"
+"                    <span>La distribución automática puede aplicar como máximo</span>"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Post the difference in"
+msgstr "Registrar la diferencia en"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Excess posting"
+msgstr "Registro del excedente"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Concept"
+msgstr "Concepto"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Payment parties"
+msgstr "Participantes del pago"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Invoice customer"
+msgstr "Cliente de las facturas"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "The payer identifies who sent the funds. The customer shown on the related invoice remains the recipient of the CFDI payment complement, and the payment settles that customer's debt."
+msgstr "El pagador identifica quién envió los fondos. El cliente que aparece en la factura relacionada continúa siendo el receptor del complemento de pago CFDI y el pago liquida la deuda de dicho cliente."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid ""
+"The excess will remain as an open customer credit. For PPD invoices, Odoo will hold the\n"
+"                    payment complement until that credit is fully applied."
+msgstr ""
+"El excedente quedará como saldo abierto a favor del cliente. Para facturas PPD, Odoo retendrá el\n"
+"                    complemento de pago hasta que ese saldo se aplique por completo."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"All loaded invoice balances must be allocated before an excess can be "
+"posted. Invoice balance: %(balance)s; allocated: %(allocated)s."
+msgstr ""
+"Todos los saldos de las facturas cargadas deben distribuirse antes de registrar un excedente. "
+"Saldo de facturas: %(balance)s; distribuido: %(allocated)s."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select the account that will receive the payment excess."
+msgstr "Selecciona la cuenta que recibirá el excedente del pago."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The difference account must belong to the selected company."
+msgstr "La cuenta de diferencia debe pertenecer a la empresa seleccionada."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid ""
+"Use a regular balance-sheet or profit-and-loss account for the payment "
+"excess."
+msgstr ""
+"Usa una cuenta normal de balance o de resultados para el excedente del "
+"pago."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Enter a label for the payment excess journal item."
+msgstr "Captura una etiqueta para el apunte contable del excedente del pago."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__amount_total
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Total"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard_line__wizard_id
+msgid "Wizard"
+msgstr ""
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_journal__use_for_remission_payments
+msgid "Use for remission payments"
+msgstr "Usar para pagos de remisiones"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,help:advances_on_multiple_invoices.field_account_journal__use_for_remission_payments
+msgid "Use this bank or cash journal exclusively for payments applied to documents marked as remissions."
+msgstr "Usa este diario bancario o de efectivo exclusivamente para pagos aplicados a documentos marcados como remisiones."
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_account_payment__distributed_document_kind
+msgid "Document type"
+msgstr "Tipo de documento"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields,field_description:advances_on_multiple_invoices.field_multiple_invoice_payment_wizard__document_kind
+msgid "Documents to pay"
+msgstr "Documentos a pagar"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__account_payment__distributed_document_kind__invoice
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__multiple_invoice_payment_wizard__document_kind__invoice
+msgid "Invoices"
+msgstr "Facturas"
+
+#. module: advances_on_multiple_invoices
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__account_payment__distributed_document_kind__remission
+#: model:ir.model.fields.selection,name:advances_on_multiple_invoices.selection__multiple_invoice_payment_wizard__document_kind__remission
+msgid "Remissions"
+msgstr "Remisiones"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Document search"
+msgstr "Búsqueda de documentos"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Search document"
+msgstr "Buscar documento"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Invoice or remission number..."
+msgstr "Número de factura o remisión..."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Document distribution"
+msgstr "Distribución de documentos"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Document customer"
+msgstr "Cliente de los documentos"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_account_payment_form_invoice_distribution
+msgid "Document"
+msgstr "Documento"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Remissions are handled as internal accounting documents. Their payment is posted in the dedicated remission journal and never generates a CFDI or payment complement."
+msgstr "Las remisiones se manejan como documentos contables internos. Su pago se registra en el diario exclusivo de remisiones y nunca genera un CFDI ni complemento de pago."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.view_multiple_invoice_payment_wizard_form
+msgid "Configure a bank or cash journal with <strong>Use for remission payments</strong> before registering this payment."
+msgstr "Configura un diario bancario o de efectivo con <strong>Usar para pagos de remisiones</strong> antes de registrar este pago."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "REMISSION PAYMENT RECEIPT"
+msgstr "RECIBO DE PAGO DE REMISIÓN"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "Internal accounting document — This is not a CFDI."
+msgstr "Documento contable interno: no es un CFDI."
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "Receiving account holder"
+msgstr "Titular de la cuenta receptora"
+
+#. module: advances_on_multiple_invoices
+#: model_terms:ir.ui.view,arch_db:advances_on_multiple_invoices.report_payment_receipt_distributed
+msgid "<span>Company recording the payment:</span>"
+msgstr "<span>Empresa que registra el pago:</span>"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Invoices and remissions cannot be paid together. Select documents of only one type."
+msgstr "No se pueden pagar facturas y remisiones juntas. Selecciona documentos de un solo tipo."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The selected documents are remissions, not invoices."
+msgstr "Los documentos seleccionados son remisiones, no facturas."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The selected documents are invoices, not remissions."
+msgstr "Los documentos seleccionados son facturas, no remisiones."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The remission marker is not available on customer invoices."
+msgstr "La marca de remisión no está disponible en las facturas de cliente."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/sale_order.py:0
+msgid "Select the remission issuing company on this quotation before confirming it. You can configure a default in Sales settings."
+msgstr "Selecciona la razón social emisora de esta remisión antes de confirmar la cotización. Puedes configurar un valor predeterminado en los ajustes de Ventas."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/sale_order.py:0
+msgid "The remission issuing company must be different from the company that issues fiscal invoices."
+msgstr "La razón social emisora de remisiones debe ser distinta de la empresa que emite las facturas fiscales."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Select a bank or cash journal configured for remission payments."
+msgstr "Selecciona un diario bancario o de efectivo configurado para pagos de remisiones."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "The remission payment journal cannot be used to pay regular invoices."
+msgstr "El diario de pagos de remisiones no puede usarse para pagar facturas normales."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/wizard/multiple_invoice_payment_wizard.py:0
+msgid "Distributed remission payment"
+msgstr "Pago distribuido de remisiones"
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/account_payment.py:0
+msgid "The accounting line for %(invoice)s could not be found. The grouped payment was not reposted."
+msgstr "No se encontró la línea contable de %(invoice)s. El cobro agrupado no se volvió a publicar."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/account_payment.py:0
+msgid "Invoice %(invoice)s no longer has an open receivable line for this grouped payment."
+msgstr "La factura %(invoice)s ya no tiene una línea por cobrar abierta para este cobro agrupado."
+
+#. module: advances_on_multiple_invoices
+#. odoo-python
+#: code:addons/advances_on_multiple_invoices/models/account_payment.py:0
+msgid "The allocation for %(invoice)s could not be restored."
+msgstr "No se pudo restaurar la distribución de %(invoice)s."

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_payment_form_invoice_distribution" model="ir.ui.view">
+        <field name="name">account.payment.form.invoice.distribution</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_print_policy"
+                        type="object"
+                        string="Imprimir póliza"
+                        class="btn-secondary"
+                        groups="account.group_account_invoice"
+                        invisible="not policy_number"/>
+                <button name="action_cancel_distributed_group"
+                        type="object"
+                        string="Cancelar cobro completo"
+                        class="btn-secondary"
+                        groups="account.group_account_invoice"
+                        invisible="not distributed_payment_primary_id or state in ('draft', 'canceled')"/>
+                <button name="action_start_receipt_series"
+                        type="object"
+                        string="Iniciar serie RP"
+                        class="btn-secondary"
+                        groups="account.group_account_manager"
+                        invisible="name != 'PBC/2026/00014' or receipt_number or payment_type != 'inbound' or partner_type != 'customer' or state in ('draft', 'canceled')"/>
+            </xpath>
+            <xpath expr="//field[@name='company_id']" position="after">
+                <field name="multiple_invoice_distribution" invisible="1"/>
+                <field name="distributed_document_kind" invisible="1"/>
+                <field name="distributed_payment_primary_id" invisible="1"/>
+                <field name="distributed_is_group_primary" invisible="1"/>
+                <field name="distributed_sat_payment_method_id" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='memo']" position="after">
+                <field name="policy_observation" string="Observación"/>
+                <field name="policy_number" readonly="1" invisible="not policy_number"/>
+                <field name="receipt_number" string="Folio RP" readonly="1" invisible="not receipt_number"/>
+            </xpath>
+            <xpath expr="//notebook[@name='payment_notebook']" position="inside">
+                <page string="Document distribution"
+                      invisible="not multiple_invoice_distribution">
+                    <group>
+                        <group string="Payment parties">
+                            <field name="distributed_document_kind" readonly="1"/>
+                            <field name="partner_id" string="Document customer" readonly="1"/>
+                            <field name="distributed_payer_id" readonly="1"/>
+                            <field name="distributed_payer_bank_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group invisible="not distributed_excess_amount">
+                        <group string="Payment excess">
+                            <field name="distributed_excess_amount"/>
+                            <field name="distributed_difference_handling"/>
+                        </group>
+                        <group string="Excess posting"
+                               invisible="distributed_difference_handling != 'reconcile'">
+                            <field name="distributed_writeoff_account_id"
+                                   string="Account"/>
+                            <field name="distributed_writeoff_label"
+                                   string="Concept"/>
+                        </group>
+                    </group>
+                    <group invisible="not distributed_payment_primary_id">
+                        <group string="Cobro con varias formas de pago">
+                            <field name="distributed_group_total_amount" readonly="1"/>
+                            <field name="distributed_payment_primary_id" readonly="1"
+                                   options="{'no_create': True, 'no_open': False}"/>
+                        </group>
+                    </group>
+                    <field name="distributed_group_payment_ids" readonly="1" nolabel="1"
+                           invisible="not distributed_payment_primary_id">
+                        <list create="false" edit="false" delete="false"
+                              default_order="distributed_payment_component_sequence, id">
+                            <field name="distributed_payment_component_sequence" string="#"/>
+                            <field name="name" string="Pago"/>
+                            <field name="journal_id"/>
+                            <field name="l10n_mx_edi_payment_method_id" string="Forma de pago SAT"/>
+                            <field name="memo" string="Núm. de operación"/>
+                            <field name="amount" sum="Total"/>
+                            <field name="currency_id" column_invisible="True"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                    <div class="o_mip_allocation_scroll">
+                    <field name="distributed_group_distribution_ids" readonly="1" nolabel="1">
+                        <list create="false" edit="false" delete="false" default_order="sequence, id" limit="200">
+                            <field name="sequence" column_invisible="True"/>
+                            <field name="payment_component_sequence" string="Método"/>
+                            <field name="payment_journal_id"/>
+                            <field name="sat_payment_method_id"/>
+                            <field name="operation_number" optional="show"/>
+                            <field name="invoice_id" string="Document" options="{'no_create': True}"/>
+                            <field name="previous_residual"/>
+                            <field name="amount" sum="Applied"/>
+                            <field name="remaining_residual"/>
+                            <field name="shortfall_amount" string="Faltante a gasto" optional="show"/>
+                            <field name="shortfall_move_id" string="Asiento del faltante" optional="show"/>
+                            <field name="reconciliation_active" widget="boolean_toggle"/>
+                            <field name="currency_id" column_invisible="True"/>
+                        </list>
+                    </field>
+                    </div>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_payment_list_receipt_number" model="ir.ui.view">
+        <field name="name">account.payment.list.receipt.number</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="receipt_number" string="Folio RP" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_account_payment_search_receipt_number" model="ir.ui.view">
+        <field name="name">account.payment.search.receipt.number</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="receipt_number" string="Folio RP"
+                       filter_domain="[('receipt_number', 'ilike', self)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='inbound_filter']" position="after">
+                <filter name="with_receipt_number" string="Con folio RP"
+                        domain="[('receipt_number', '!=', False)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

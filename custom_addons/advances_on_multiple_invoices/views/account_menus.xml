@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_multiple_invoice_payment_wizard"
+              name="Distribute customer payment"
+              parent="account.menu_finance_receivables"
+              action="action_multiple_invoice_payment_wizard"
+              groups="account.group_account_invoice"
+              sequence="16"/>
+</odoo>

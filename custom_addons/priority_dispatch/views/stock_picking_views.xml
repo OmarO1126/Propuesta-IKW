@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista de Formulario -->
+    <record id="view_picking_form_inherit_priority" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit.priority</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="is_high_priority"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Vista de Lista -->
+    <record id="vpicktree_inherit_priority" model="ir.ui.view">
+        <field name="name">stock.picking.tree.inherit.priority</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='origin']" position="after">
+                <field name="is_high_priority" optional="show" widget="boolean_toggle" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Filtros de Búsqueda -->
+    <record id="view_picking_internal_search_inherit_priority" model="ir.ui.view">
+        <field name="name">stock.picking.search.inherit.priority</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='draft']" position="before">
+                <filter string="Despacho Prioritario" name="filter_is_high_priority" domain="[('is_high_priority', '=', True)]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

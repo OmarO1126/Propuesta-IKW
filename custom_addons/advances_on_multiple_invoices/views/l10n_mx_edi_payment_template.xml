@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo xmlns:pago20="http://www.sat.gob.mx/Pagos20">
+    <!-- Odoo's standard template contains one Pago node. Repeating that node
+         preserves the official structure while allowing one REP to represent
+         the two or three accounting payments captured in the wizard. -->
+    <template id="payment20_multiple_methods"
+              inherit_id="l10n_mx_edi.payment20"
+              priority="50">
+        <xpath expr="//*[local-name()='Pago']" position="attributes">
+            <attribute name="t-foreach">payment_nodes</attribute>
+            <attribute name="t-as">payment_node</attribute>
+            <attribute name="t-att-FechaPago">payment_node['fecha_pago']</attribute>
+            <attribute name="t-att-FormaDePagoP">payment_node['forma_de_pago']</attribute>
+            <attribute name="t-att-MonedaP">payment_node['moneda']</attribute>
+            <attribute name="t-att-TipoCambioP">format_float(payment_node['tipo_cambio'], precision=payment_node['tipo_cambio_dp']) or '1'</attribute>
+            <attribute name="t-att-Monto">format_float(payment_node['monto'])</attribute>
+            <attribute name="t-att-NumOperacion">format_string(payment_node['num_operacion'], 100)</attribute>
+            <attribute name="t-att-RfcEmisorCtaOrd">payment_node['rfc_emisor_cta_ord']</attribute>
+            <attribute name="t-att-NomBancoOrdExt">payment_node['nom_banco_ord_ext']</attribute>
+            <attribute name="t-att-CtaOrdenante">payment_node['cta_ordenante']</attribute>
+            <attribute name="t-att-RfcEmisorCtaBen">payment_node['rfc_emisor_cta_ben']</attribute>
+            <attribute name="t-att-CtaBeneficiario">payment_node['cta_beneficiario']</attribute>
+        </xpath>
+
+        <xpath expr="//*[local-name()='Pago']/t[@t-foreach='docto_relationado_list']"
+               position="attributes">
+            <attribute name="t-foreach">payment_node['docto_relationado_list']</attribute>
+        </xpath>
+
+        <xpath expr="//*[local-name()='ImpuestosP']" position="attributes">
+            <attribute name="t-if">payment_node['retenciones_list'] or payment_node['traslados_list']</attribute>
+        </xpath>
+        <xpath expr="//*[local-name()='RetencionesP']" position="attributes">
+            <attribute name="t-if">payment_node['retenciones_list']</attribute>
+        </xpath>
+        <xpath expr="//*[local-name()='RetencionesP']/t" position="attributes">
+            <attribute name="t-foreach">payment_node['retenciones_list']</attribute>
+        </xpath>
+        <xpath expr="//*[local-name()='TrasladosP']" position="attributes">
+            <attribute name="t-if">payment_node['traslados_list']</attribute>
+        </xpath>
+        <xpath expr="//*[local-name()='TrasladosP']/t" position="attributes">
+            <attribute name="t-foreach">payment_node['traslados_list']</attribute>
+        </xpath>
+    </template>
+</odoo>

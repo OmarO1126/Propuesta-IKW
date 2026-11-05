@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Deactivate the old stock delivery-slip inheritance on upgrades. -->
+    <record id="report_delivery_document_remission" model="ir.ui.view">
+        <field name="name">Remisión anterior en vale de entrega (desactivada)</field>
+        <field name="type">qweb</field>
+        <field name="inherit_id" ref="stock.report_delivery_document"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//div[hasclass('page')]" position="inside">
+                    <t t-if="False"/>
+                </xpath>
+            </data>
+        </field>
+        <field name="active" eval="False"/>
+    </record>
+
+    <record id="paperformat_remission_delivery" model="report.paperformat">
+        <field name="name">Remisión de salida A4</field>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">20</field>
+        <field name="margin_bottom">22</field>
+        <field name="margin_left">12</field>
+        <field name="margin_right">12</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">9</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <template id="remission_contact_layout">
+        <div class="article o_report_layout_standard"
+             t-att-data-oe-model="o._name" t-att-data-oe-id="o.id"
+             t-att-data-oe-lang="o.env.context.get('lang')">
+            <t t-out="0"/>
+        </div>
+        <div class="footer text-muted" style="border-top: 1px solid #d8dadd; padding-top: 4px; font-size: 9px;">
+            <span>Remisión interna</span>
+            <span class="float-end">Página <span class="page"/> / <span class="topage"/></span>
+        </div>
+    </template>
+
+    <template id="report_remission_delivery_document">
+        <t t-set="is_picking" t-value="o._name == 'stock.picking'"/>
+        <t t-set="sale" t-value="o.sale_id if is_picking else o"/>
+        <t t-set="issuer" t-value="sale.remission_issuer_partner_id.sudo()"/>
+        <t t-set="delivery" t-value="(o.partner_id or sale.partner_shipping_id) if is_picking else (sale.partner_shipping_id or sale.partner_id)"/>
+        <t t-set="customer" t-value="sale.partner_id"/>
+        <t t-set="currency" t-value="sale.currency_id or sale.company_id.currency_id"/>
+        <t t-set="transport" t-value="sale._get_remission_transport_text()"/>
+        <t t-set="observations" t-value="sale._get_remission_observations_text()"/>
+        <t t-set="lines" t-value="o._get_remission_report_lines() if is_picking else []"/>
+        <t t-set="total" t-value="sum((line['subtotal'] or 0.0) for line in lines)"/>
+        <t t-call="advances_on_multiple_invoices.remission_contact_layout">
+            <div class="page remission-page" style="font-size: 10px; color: #202430;">
+                <style>
+                    .remission-page .remission-section { page-break-inside: avoid; }
+                    .remission-page .remission-closing { display: inline-block; width: 100%; page-break-inside: avoid; }
+                    .remission-page .remission-lines { width: 100%; table-layout: fixed; border-collapse: collapse; }
+                    .remission-page .remission-lines thead { display: table-header-group; }
+                    .remission-page .remission-lines tr { page-break-inside: avoid; }
+                    .remission-page .remission-lines th { border-bottom: 1px solid #714B67; padding: 6px 4px; font-size: 9px; }
+                    .remission-page .remission-lines td { border-bottom: 1px solid #e7e7e7; padding: 6px 4px; vertical-align: top; overflow-wrap: break-word; }
+                    .remission-page .remission-lines .money { white-space: nowrap; text-align: right; }
+                    .remission-page .remission-lines .quantity { white-space: nowrap; text-align: center; }
+                    .remission-page .remission-lines .discount { white-space: nowrap; text-align: right; }
+                    .remission-page .remission-box { border: 1px solid #d8dadd; padding: 9px; vertical-align: top; }
+                </style>
+
+                <div class="remission-section" name="remission_issuer_header"
+                     style="border-bottom: 1px solid #714B67; padding-bottom: 8px; margin-bottom: 12px; font-size: 9px; line-height: 1.25;">
+                    <strong t-if="issuer" style="font-size: 24px; line-height: 1.1;" t-field="issuer.name"/>
+                    <strong t-else="">Emisor de remisión no registrado</strong>
+                    <div t-if="issuer and issuer.vat">RFC: <span t-field="issuer.vat"/></div>
+                    <div t-if="issuer and issuer.street">
+                        <span t-field="issuer.street"/>
+                        <span t-if="issuer.street2">, <span t-field="issuer.street2"/></span>
+                    </div>
+                    <div t-if="issuer and (issuer.zip or issuer.city or issuer.state_id or issuer.country_id)">
+                        <span t-if="issuer.zip" t-field="issuer.zip"/>
+                        <span t-if="issuer.city" t-field="issuer.city"/>
+                        <span t-if="issuer.state_id">, <span t-field="issuer.state_id.name"/></span>
+                        <span t-if="issuer.country_id">, <span t-field="issuer.country_id.name"/></span>
+                    </div>
+                    <div t-if="issuer and issuer.phone">Tel: <span t-field="issuer.phone"/></div>
+                    <div t-if="issuer and issuer.email">Correo: <span t-field="issuer.email"/></div>
+                </div>
+
+                <div class="remission-section" name="remission_title"
+                     style="margin: 8px 0 14px; overflow: hidden;">
+                    <div style="float: right; margin-top: 2px; font-size: 10px; text-align: right;">
+                        <strong>Fecha de emisión:</strong>
+                        <span t-if="is_picking and o.date_done" t-field="o.date_done" t-options="{'widget': 'date'}"/>
+                        <span t-elif="is_picking" t-field="o.scheduled_date" t-options="{'widget': 'date'}"/>
+                        <span t-else="" t-field="sale.date_order" t-options="{'widget': 'date'}"/>
+                    </div>
+                    <h2 style="font-size: 14px; margin: 0; font-weight: normal;">
+                        REMISIÓN <span t-field="o.name"/>
+                    </h2>
+                </div>
+
+                <table class="remission-section" style="width: 100%; table-layout: fixed; border-spacing: 0; margin-bottom: 17px;">
+                    <tr>
+                        <td class="remission-box" style="width: 58%;">
+                            <strong>Cliente</strong>
+                            <div t-if="customer and customer != delivery" t-field="customer.name"/>
+                            <div t-if="delivery" t-field="delivery.name"/>
+                            <div t-if="delivery and delivery.street" t-field="delivery.street"/>
+                            <div t-if="delivery and delivery.street2" t-field="delivery.street2"/>
+                            <div t-if="delivery and (delivery.zip or delivery.city or delivery.state_id or delivery.country_id)">
+                                <span t-if="delivery.zip" t-field="delivery.zip"/>
+                                <span t-if="delivery.city" t-field="delivery.city"/>
+                                <span t-if="delivery.state_id">, <span t-field="delivery.state_id.name"/></span>
+                                <span t-if="delivery.country_id">, <span t-field="delivery.country_id.name"/></span>
+                            </div>
+                            <div t-if="delivery and delivery.phone">Tel: <span t-field="delivery.phone"/></div>
+                            <div t-if="delivery and delivery._fields.get('mobile') and delivery.mobile and delivery.mobile != delivery.phone">
+                                Móvil: <span t-out="delivery.mobile"/>
+                            </div>
+                            <div t-if="delivery and (delivery.vat or delivery.commercial_partner_id.vat)">
+                                RFC: <span t-out="delivery.vat or delivery.commercial_partner_id.vat"/>
+                            </div>
+                        </td>
+                        <td class="remission-box" style="width: 42%;">
+                            <div><strong>Pedido:</strong> <span t-field="sale.name"/></div>
+                            <div t-if="sale.client_order_ref">
+                                <strong>Referencia del cliente:</strong>
+                                <span t-field="sale.client_order_ref"/>
+                            </div>
+                            <div t-if="is_picking and o.picking_type_id.warehouse_id">
+                                <strong>Almacén:</strong>
+                                <span t-field="o.picking_type_id.warehouse_id.name"/>
+                            </div>
+                            <div><strong>Agente:</strong> <span t-if="sale.user_id" t-field="sale.user_id.name"/><span t-else="">No indicado</span></div>
+                            <div><strong>Condiciones de pago:</strong> <span t-if="sale.payment_term_id" t-field="sale.payment_term_id.name"/><span t-else="">No indicadas</span></div>
+                            <div><strong>Transporte:</strong> <span t-out="transport or 'No indicado'"/></div>
+                        </td>
+                    </tr>
+                </table>
+
+                <table class="remission-lines">
+                    <thead>
+                        <tr>
+                            <th style="width: 9%; text-align: center;">Cantidad</th>
+                            <th style="width: 10%; text-align: left;">Código</th>
+                            <th style="width: 29%; text-align: left;">Descripción</th>
+                            <th style="width: 15%; text-align: left;">Clave SAT</th>
+                            <th style="width: 12%; text-align: right;">P. unitario</th>
+                            <th style="width: 9%; text-align: right;">Desc. %</th>
+                            <th style="width: 16%; text-align: right;">Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr t-foreach="lines" t-as="line">
+                            <td class="quantity">
+                                <span t-out="line['quantity']" t-options="{'widget': 'float', 'precision': 2}"/>
+                                <small style="display: block; white-space: normal;" t-field="line['uom'].name"/>
+                            </td>
+                            <td><span t-out="line['code'] or '--'"/></td>
+                            <td>
+                                <span t-field="line['product'].name"/>
+                                <div t-if="line['description']"
+                                     style="font-size: 8px; color: #58606e;"
+                                     t-out="line['description']"/>
+                            </td>
+                            <td>
+                                <span t-out="line['sat_code'] or 'No asignada'"/>
+                                <small style="display: block; color: #58606e;">
+                                    Unidad: <span t-out="line['sat_uom_code'] or 'No asignada'"/>
+                                </small>
+                            </td>
+                            <td class="money">
+                                <span t-if="line['priced']" t-out="line['unit_price']"
+                                      t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                <span t-else="">Sin precio</span>
+                            </td>
+                            <td class="discount"><span t-out="'{:.2f}'.format(line['discount']) + '%'"/></td>
+                            <td class="money">
+                                <span t-if="line['priced']" t-out="line['subtotal']"
+                                      t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                                <span t-else="">--</span>
+                            </td>
+                        </tr>
+                        <tr t-if="not lines"><td colspan="7">No hay cantidades recogidas en la salida.</td></tr>
+                    </tbody>
+                </table>
+
+                <div class="remission-closing" name="remission_closing">
+                    <div t-if="any(not line['priced'] for line in lines)" class="remission-section"
+                         style="font-size: 9px; color: #7a4d08; margin-top: 7px;">
+                        Los productos sin precio de venta en el pedido no se incluyen en el total.
+                    </div>
+
+                    <div class="remission-section" style="margin: 10px 0 18px; text-align: right; font-size: 15px;">
+                        <strong>TOTAL&#160;&#160;</strong>
+                        <strong t-out="currency.round(total)"
+                                t-options="{'widget': 'monetary', 'display_currency': currency}"/>
+                    </div>
+
+                    <div class="remission-section" style="margin-bottom: 28px;">
+                        <strong>Observaciones</strong>
+                        <div t-out="observations or 'Sin observaciones'"
+                             style="white-space: pre-wrap; overflow-wrap: anywhere; padding-top: 5px;"/>
+                    </div>
+
+                    <div class="remission-section"
+                         style="width: 48%; margin: 28px 0 0 auto; padding-top: 6px; border-top: 1px solid #333; text-align: center;">
+                        <strong>Recibió de conformidad</strong>
+                        <div style="font-size: 9px;">Nombre, fecha y firma</div>
+                    </div>
+
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_remission_delivery">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="advances_on_multiple_invoices.report_remission_delivery_document"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_remission_delivery_empty">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="advances_on_multiple_invoices.report_remission_delivery_document"/>
+            </t>
+        </t>
+    </template>
+
+    <record id="action_report_remission_delivery" model="ir.actions.report">
+        <field name="name">Remisión de salida</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">advances_on_multiple_invoices.report_remission_delivery</field>
+        <field name="report_file">advances_on_multiple_invoices.report_remission_delivery</field>
+        <field name="paperformat_id" ref="advances_on_multiple_invoices.paperformat_remission_delivery"/>
+        <field name="print_report_name">'Remisión %s' % object.name</field>
+    </record>
+
+    <record id="action_report_remission_delivery_empty" model="ir.actions.report">
+        <field name="name">Remisión sin salida</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">advances_on_multiple_invoices.report_remission_delivery_empty</field>
+        <field name="report_file">advances_on_multiple_invoices.report_remission_delivery_empty</field>
+        <field name="paperformat_id" ref="advances_on_multiple_invoices.paperformat_remission_delivery"/>
+        <field name="print_report_name">'Remisión %s' % object.name</field>
+    </record>
+</odoo>
