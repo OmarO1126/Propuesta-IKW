@@ -28,3 +28,6 @@
 [submodule "sale_library_consignment"]
 	path = sale_library_consignment
 	url = git@github.com:businessinsights-mx/sale_library_consignment.git
+[submodule "account_payment_ignore_sat"]
+	path = account_payment_ignore_sat
+	url = git@github.com:businessinsights-mx/account_payment_ignore_sat.git
