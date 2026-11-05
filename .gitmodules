@@ -22,12 +22,3 @@
 [submodule "custom_addons/pricelist_cascade"]
 	path = custom_addons/pricelist_cascade
 	url = git@github.com:businessinsights-mx/pricelist_cascade.git
-[submodule "addenda_mx"]
-	path = addenda_mx
-	url = git@github.com:businessinsights-mx/addenda_mx.git
-[submodule "sale_library_consignment"]
-	path = sale_library_consignment
-	url = git@github.com:businessinsights-mx/sale_library_consignment.git
-[submodule "account_payment_ignore_sat"]
-	path = account_payment_ignore_sat
-	url = git@github.com:businessinsights-mx/account_payment_ignore_sat.git
