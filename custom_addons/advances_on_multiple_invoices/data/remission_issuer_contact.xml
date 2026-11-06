@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="partner_remission_issuer" model="res.partner">
+        <field name="name">Emisor de remisiones (editar datos)</field>
+        <field name="is_company" eval="True"/>
+        <field name="ref">EMISOR-REMISION</field>
+        <field name="is_remission_issuer_contact" eval="True"/>
+    </record>
+</odoo>

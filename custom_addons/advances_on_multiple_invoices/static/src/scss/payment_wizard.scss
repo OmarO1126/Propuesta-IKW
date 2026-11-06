@@ -1,0 +1,11 @@
+.o_mip_allocation_scroll {
+    max-height: 600px; // Header, totals and no more than about fifteen invoice rows.
+    overflow-y: auto;
+    overscroll-behavior: contain;
+
+    .o_list_renderer .o_list_table thead {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+}

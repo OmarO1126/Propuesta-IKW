@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_multiple_invoice_payment_wizard_form" model="ir.ui.view">
+        <field name="name">multiple.invoice.payment.wizard.form</field>
+        <field name="model">multiple.invoice.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Register and distribute payment">
+                <field name="country_code" invisible="1"/>
+                <field name="available_journal_ids" invisible="1"/>
+                <field name="available_payment_method_line_ids" invisible="1"/>
+                <field name="second_available_payment_method_line_ids" invisible="1"/>
+                <field name="third_available_payment_method_line_ids" invisible="1"/>
+                <field name="available_invoice_ids" invisible="1"/>
+                <field name="available_payer_bank_ids" invisible="1"/>
+                <field name="allocation_complete" invisible="1"/>
+                <field name="invoice_filter_applied" invisible="1"/>
+                <field name="amount_exceeds_outstanding" invisible="1"/>
+                <field name="show_payment_difference" invisible="1"/>
+                <field name="has_unallocated_amount" invisible="1"/>
+                <field name="has_shortfall" invisible="1"/>
+                <field name="excess_amount" invisible="1"/>
+                <field name="use_second_payment" invisible="1"/>
+                <field name="use_third_payment" invisible="1"/>
+                <field name="policy_observation_autofill_source" invisible="1"/>
+
+                <group class="mb-2">
+                    <field name="document_kind" widget="radio" options="{'horizontal': true}"/>
+                </group>
+
+                <div class="alert alert-warning" role="alert"
+                     invisible="document_kind != 'remission' or available_journal_ids">
+                    Configura un diario bancario o de efectivo con <strong>Usar para pagos de remisiones</strong>
+                    antes de registrar este pago.
+                </div>
+                <div class="alert alert-warning" role="alert"
+                     invisible="combined_payment_amount &lt;= 0 or allocation_complete">
+                    There is still an amount to allocate. Use an automatic distribution button or edit the
+                    <strong>Apply</strong> column manually.
+                </div>
+                <div class="alert alert-warning" role="alert"
+                     invisible="not amount_exceeds_outstanding">
+                    <span>The payment exceeds the total outstanding balance of the loaded invoices.</span>
+                    <span>Automatic distribution can allocate at most</span>
+                    <field name="total_outstanding_amount" readonly="1" class="oe_inline"/>.
+                </div>
+
+                <group>
+                    <group>
+                        <field name="company_id" groups="base.group_multi_company"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="partner_id" options="{'no_create': True}"/>
+                        <field name="payer_id" options="{'no_create': True}"/>
+                        <field name="payment_date"/>
+                    </group>
+                    <group>
+                        <field name="l10n_mx_edi_cfdi_origin"
+                               invisible="country_code != 'MX' or document_kind == 'remission'"/>
+                    </group>
+                </group>
+
+                <separator string="Formas de pago"/>
+                <group string="Forma de pago 1">
+                    <group>
+                        <label for="amount" string="Importe 1"/>
+                        <div class="o_row">
+                            <field name="amount"/>
+                            <field name="currency_id" options="{'no_create': True, 'no_open': True}"
+                                   groups="base.group_multi_currency"/>
+                        </div>
+                        <field name="memo" string="Núm. de operación 1"/>
+                        <field name="policy_observation" string="Observación"/>
+                        <field name="payer_bank_id" string="Cuenta ordenante 1"
+                               domain="[('id', 'in', available_payer_bank_ids)]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="journal_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="payment_method_line_id" invisible="1" force_save="1"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="l10n_mx_edi_payment_method_id"
+                               invisible="country_code != 'MX' or document_kind == 'remission'"
+                               required="country_code == 'MX' and document_kind == 'invoice'"
+                               domain="[('active', '=', True), ('code', '!=', '99')]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                </group>
+
+                <div class="d-flex flex-wrap gap-2 mb-2">
+                    <button name="action_add_second_payment" type="object"
+                            string="Agregar otra forma de pago" class="btn-secondary"
+                            icon="fa-plus" invisible="use_second_payment"/>
+                    <button name="action_remove_second_payment" type="object"
+                            string="Quitar formas adicionales" class="btn-secondary"
+                            icon="fa-times" invisible="not use_second_payment"/>
+                    <button name="action_add_third_payment" type="object"
+                            string="Agregar tercera forma de pago" class="btn-secondary"
+                            icon="fa-plus" invisible="not use_second_payment or use_third_payment"/>
+                </div>
+
+                <group string="Forma de pago 2" invisible="not use_second_payment">
+                    <group>
+                        <field name="second_amount" required="use_second_payment"/>
+                        <field name="second_memo"/>
+                        <field name="second_payer_bank_id"
+                               domain="[('id', 'in', available_payer_bank_ids)]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="second_journal_id" required="use_second_payment"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="second_payment_method_line_id" invisible="1" force_save="1"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="second_l10n_mx_edi_payment_method_id"
+                               invisible="country_code != 'MX' or document_kind == 'remission'"
+                               required="use_second_payment and country_code == 'MX' and document_kind == 'invoice'"
+                               domain="[('active', '=', True), ('code', '!=', '99')]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                </group>
+
+                <group string="Forma de pago 3" invisible="not use_third_payment">
+                    <group>
+                        <field name="third_amount" required="use_third_payment"/>
+                        <field name="third_memo"/>
+                        <field name="third_payer_bank_id"
+                               domain="[('id', 'in', available_payer_bank_ids)]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <group>
+                        <field name="third_journal_id" required="use_third_payment"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="third_payment_method_line_id" invisible="1" force_save="1"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="third_l10n_mx_edi_payment_method_id"
+                               invisible="country_code != 'MX' or document_kind == 'remission'"
+                               required="use_third_payment and country_code == 'MX' and document_kind == 'invoice'"
+                               domain="[('active', '=', True), ('code', '!=', '99')]"
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                </group>
+                <div class="d-flex justify-content-end mb-3" invisible="not use_second_payment">
+                    <button name="action_remove_third_payment" type="object"
+                            string="Quitar tercera forma" class="btn-link"
+                            invisible="not use_third_payment"/>
+                    <span class="fw-bold me-2">Importe total:</span>
+                    <field name="combined_payment_amount" readonly="1" class="oe_inline fw-bold"/>
+                </div>
+
+                <div class="alert alert-secondary py-2" role="alert"
+                     invisible="not has_unallocated_amount or amount_exceeds_outstanding">
+                    <field name="allow_unallocated_amount" class="oe_inline"/>
+                    <span class="ms-2">
+                        Actívalo cuando deliberadamente no quieras aplicar centavos u otra diferencia a una factura abierta.
+                    </span>
+                </div>
+                <group invisible="not show_payment_difference" class="mt-2">
+                    <group string="Importe no aplicado">
+                        <field name="excess_amount" string="Importe no aplicado" readonly="1"/>
+                        <field name="payment_difference_handling" widget="radio" nolabel="1"/>
+                    </group>
+                    <group string="Registro de la diferencia"
+                           invisible="payment_difference_handling != 'reconcile'">
+                        <field name="writeoff_account_id"
+                               string="Cuenta"
+                               domain="[('account_type', 'not in', ('asset_receivable', 'liability_payable', 'asset_cash', 'off_balance'))]"
+                               options="{'no_create': True, 'no_open': True}"
+                               required="show_payment_difference and payment_difference_handling == 'reconcile'"/>
+                        <field name="writeoff_label" string="Concepto"
+                               required="show_payment_difference and payment_difference_handling == 'reconcile'"/>
+                    </group>
+                </group>
+                <group invisible="not has_shortfall or document_kind != 'invoice'">
+                    <group string="Centavos que no se cobrarán">
+                        <field name="shortfall_account_id" string="Cuenta de gasto"
+                               domain="[('account_type', '=', 'expense')]"
+                               options="{'no_create': True, 'no_open': True}"
+                               required="has_shortfall and document_kind == 'invoice'"/>
+                        <field name="shortfall_journal_id" string="Diario de ajuste"
+                               domain="[('type', '=', 'general')]"
+                               options="{'no_create': True, 'no_open': True}"
+                               required="has_shortfall and document_kind == 'invoice'"/>
+                    </group>
+                </group>
+                <div class="alert alert-warning py-2" role="alert"
+                     invisible="not has_shortfall or document_kind != 'invoice'">
+                    Se registra únicamente el dinero recibido como pago. Cada faltante menor a 1.00
+                    seleccionado se cierra en un asiento de gasto aparte; no se declara como cobrado
+                    en el complemento de pago.
+                </div>
+
+                <separator string="Document search"/>
+                <group col="6" class="mb-2">
+                    <field name="invoice_filter_ids" string="Documentos a mostrar"
+                           widget="many2many_tags"
+                           colspan="4"
+                           domain="[('id', 'in', available_invoice_ids)]"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <button name="action_apply_invoice_filter" type="object" string="Mostrar seleccionados"
+                            class="btn-primary" icon="fa-search"
+                            invisible="not invoice_filter_ids"/>
+                    <button name="action_clear_invoice_filter" type="object" string="Mostrar todos"
+                            class="btn-secondary" icon="fa-times"
+                            invisible="not invoice_filter_applied"/>
+                </group>
+
+                <separator string="Distribución por forma de pago"/>
+                <notebook>
+                    <page string="Método 1">
+                        <group col="6">
+                            <field name="amount" string="Importe del método" readonly="1"/>
+                            <field name="first_allocated_amount" readonly="1"/>
+                            <field name="first_amount_to_allocate" readonly="1"/>
+                        </group>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <button name="action_allocate_oldest" type="object"
+                                    string="Aplicar a más antiguas" class="btn-secondary"
+                                    icon="fa-sort-amount-asc"/>
+                            <button name="action_allocate_newest" type="object"
+                                    string="Aplicar a más recientes" class="btn-secondary"
+                                    icon="fa-sort-amount-desc"/>
+                            <button name="action_allocate_proportionally" type="object"
+                                    string="Distribuir proporcionalmente" class="btn-secondary"
+                                    icon="fa-balance-scale"/>
+                            <button name="action_clear_first_allocations" type="object"
+                                    string="Limpiar método 1" class="btn-secondary"
+                                    icon="fa-eraser"/>
+                        </div>
+                        <div class="o_mip_allocation_scroll">
+                        <field name="line_ids" id="line_ids_method_1" nolabel="1"
+                               invisible="invoice_filter_applied">
+                            <list editable="bottom" create="false" delete="false" default_order="sequence, id" limit="200">
+                                <field name="sequence" widget="handle"/>
+                                <field name="invoice_id" force_save="1" options="{'no_create': True}"/>
+                                <field name="invoice_date_due" optional="show"/>
+                                <field name="payment_policy" optional="show"/>
+                                <field name="current_residual" sum="Saldo inicial"/>
+                                <field name="allocation_amount" sum="Método 1"/>
+                                <field name="remaining_after_first" sum="Disponible"/>
+                                <field name="forgive_shortfall" string="No cobrar centavos" optional="show"/>
+                                <field name="shortfall_amount" string="A gasto" readonly="1" optional="show"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="account_id" force_save="1" column_invisible="True"/>
+                            </list>
+                        </field>
+                        </div>
+                        <div class="o_mip_allocation_scroll">
+                        <field name="filtered_line_ids" nolabel="1" invisible="not invoice_filter_applied">
+                            <list editable="bottom" create="false" delete="false" default_order="sequence, id" limit="200">
+                                <field name="sequence" widget="handle"/>
+                                <field name="invoice_id" force_save="1" options="{'no_create': True}"/>
+                                <field name="invoice_date_due" optional="show"/>
+                                <field name="payment_policy" optional="show"/>
+                                <field name="current_residual" sum="Saldo inicial"/>
+                                <field name="allocation_amount" sum="Método 1"/>
+                                <field name="remaining_after_first" sum="Disponible"/>
+                                <field name="forgive_shortfall" string="No cobrar centavos" optional="show"/>
+                                <field name="shortfall_amount" string="A gasto" readonly="1" optional="show"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="account_id" force_save="1" column_invisible="True"/>
+                            </list>
+                        </field>
+                        </div>
+                    </page>
+
+                    <page string="Método 2" invisible="not use_second_payment">
+                        <group col="6">
+                            <field name="second_amount" string="Importe del método" readonly="1"/>
+                            <field name="second_allocated_amount" readonly="1"/>
+                            <field name="second_amount_to_allocate" readonly="1"/>
+                        </group>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <button name="action_allocate_second_oldest" type="object"
+                                    string="Aplicar a más antiguas" class="btn-secondary"
+                                    icon="fa-sort-amount-asc"/>
+                            <button name="action_allocate_second_newest" type="object"
+                                    string="Aplicar a más recientes" class="btn-secondary"
+                                    icon="fa-sort-amount-desc"/>
+                            <button name="action_allocate_second_proportionally" type="object"
+                                    string="Distribuir proporcionalmente" class="btn-secondary"
+                                    icon="fa-balance-scale"/>
+                            <button name="action_clear_second_allocations" type="object"
+                                    string="Limpiar método 2" class="btn-secondary"
+                                    icon="fa-eraser"/>
+                        </div>
+                        <div class="o_mip_allocation_scroll">
+                        <field name="line_ids" id="line_ids_method_2" nolabel="1"
+                               invisible="invoice_filter_applied">
+                            <list editable="bottom" create="false" delete="false" default_order="sequence, id" limit="200">
+                                <field name="sequence" widget="handle"/>
+                                <field name="invoice_id" force_save="1" options="{'no_create': True}"/>
+                                <field name="allocation_amount" string="Ya aplicado método 1" readonly="1" sum="Método 1"/>
+                                <field name="remaining_after_first" string="Disponible para método 2" sum="Disponible"/>
+                                <field name="second_allocation_amount" sum="Método 2"/>
+                                <field name="remaining_after_second" string="Saldo posterior" sum="Restante"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="account_id" force_save="1" column_invisible="True"/>
+                            </list>
+                        </field>
+                        </div>
+                        <div class="o_mip_allocation_scroll">
+                        <field name="filtered_second_line_ids" nolabel="1"
+                               invisible="not invoice_filter_applied">
+                            <list editable="bottom" create="false" delete="false" default_order="sequence, id" limit="200">
+                                <field name="sequence" widget="handle"/>
+                                <field name="invoice_id" force_save="1" options="{'no_create': True}"/>
+                                <field name="allocation_amount" string="Ya aplicado método 1" readonly="1" sum="Método 1"/>
+                                <field name="remaining_after_first" string="Disponible para método 2" sum="Disponible"/>
+                                <field name="second_allocation_amount" sum="Método 2"/>
+                                <field name="remaining_after_second" string="Saldo posterior" sum="Restante"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="account_id" force_save="1" column_invisible="True"/>
+                            </list>
+                        </field>
+                        </div>
+                    </page>
+
+                    <page string="Método 3" invisible="not use_third_payment">
+                        <group col="6">
+                            <field name="third_amount" string="Importe del método" readonly="1"/>
+                            <field name="third_allocated_amount" readonly="1"/>
+                            <field name="third_amount_to_allocate" readonly="1"/>
+                        </group>
+                        <div class="d-flex flex-wrap gap-2 mb-3">
+                            <button name="action_allocate_third_oldest" type="object"
+                                    string="Aplicar a más antiguas" class="btn-secondary"
+                                    icon="fa-sort-amount-asc"/>
+                            <button name="action_allocate_third_newest" type="object"
+                                    string="Aplicar a más recientes" class="btn-secondary"
+                                    icon="fa-sort-amount-desc"/>
+                            <button name="action_allocate_third_proportionally" type="object"
+                                    string="Distribuir proporcionalmente" class="btn-secondary"
+                                    icon="fa-balance-scale"/>
+                            <button name="action_clear_third_allocations" type="object"
+                                    string="Limpiar método 3" class="btn-secondary"
+                                    icon="fa-eraser"/>
+                        </div>
+                        <div class="o_mip_allocation_scroll">
+                        <field name="line_ids" id="line_ids_method_3" nolabel="1"
+                               invisible="invoice_filter_applied">
+                            <list editable="bottom" create="false" delete="false" default_order="sequence, id" limit="200">
+                                <field name="sequence" widget="handle"/>
+                                <field name="invoice_id" force_save="1" options="{'no_create': True}"/>
+                                <field name="allocation_amount" string="Método 1" readonly="1" sum="Método 1"/>
+                                <field name="second_allocation_amount" string="Método 2" readonly="1" sum="Método 2"/>
+                                <field name="remaining_after_second" string="Disponible para método 3" sum="Disponible"/>
+                                <field name="third_allocation_amount" sum="Método 3"/>
+                                <field name="remaining_residual" string="Saldo posterior" sum="Restante"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="account_id" force_save="1" column_invisible="True"/>
+                            </list>
+                        </field>
+                        </div>
+                        <div class="o_mip_allocation_scroll">
+                        <field name="filtered_third_line_ids" nolabel="1"
+                               invisible="not invoice_filter_applied">
+                            <list editable="bottom" create="false" delete="false" default_order="sequence, id" limit="200">
+                                <field name="sequence" widget="handle"/>
+                                <field name="invoice_id" force_save="1" options="{'no_create': True}"/>
+                                <field name="allocation_amount" string="Método 1" readonly="1" sum="Método 1"/>
+                                <field name="second_allocation_amount" string="Método 2" readonly="1" sum="Método 2"/>
+                                <field name="remaining_after_second" string="Disponible para método 3" sum="Disponible"/>
+                                <field name="third_allocation_amount" sum="Método 3"/>
+                                <field name="remaining_residual" string="Saldo posterior" sum="Restante"/>
+                                <field name="currency_id" column_invisible="True"/>
+                                <field name="account_id" force_save="1" column_invisible="True"/>
+                            </list>
+                        </field>
+                        </div>
+                    </page>
+                </notebook>
+
+                <div class="d-flex justify-content-end mb-2">
+                    <button name="action_clear_allocations" type="object"
+                            string="Limpiar toda la distribución" class="btn-link"
+                            icon="fa-eraser"/>
+                </div>
+
+                <group class="mt-2">
+                    <group/>
+                    <group>
+                        <field name="allocated_amount" readonly="1"/>
+                        <field name="amount_to_allocate" readonly="1"
+                               class="fw-bold"/>
+                    </group>
+                </group>
+
+                <footer>
+                    <button name="action_create_distributed_payment" type="object"
+                            string="Create distributed payment" class="btn-primary"
+                            invisible="not allocation_complete" data-hotkey="q"/>
+                    <button string="Cancel" special="cancel" class="btn-secondary" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_multiple_invoice_payment_wizard" model="ir.actions.act_window">
+        <field name="name">Register and distribute payment</field>
+        <field name="res_model">multiple.invoice.payment.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_multiple_invoice_payment_wizard_form"/>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+</odoo>
